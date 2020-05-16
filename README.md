@@ -60,7 +60,7 @@ I wrote a custome keyword where a few lines of Groovy code generates a String of
 ```
 public static String today() {
     // Todays date
-    LocalDate today = LocalDate.now()
+    LocalDate today = LocalDate.now(ZoneOffset.UTC)
     // Todays Day as 2 gigits. e.g, "16"
     String dayToday = today.format(DateTimeFormatter.ofPattern("dd", Locale.JAPAN))
     // Todays Month as 1-2 digits. E.g, '5' as May
