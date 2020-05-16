@@ -73,7 +73,7 @@ public static String today() {
 }
 ```
 
-You might be surprised that the method is this lengthy and complex. In fact, this is the core part of this demo project. Generating an appropriate pattern string as Today's date is most important when you are going to verify date in a web page because every web page has it's own format of date and you, as a test, have to adopt to the variations of date formats.
+You might be surprised that the method is this lengthy and complex. In fact, this is the core part of this demo project. Generating an appropriate pattern string as Today's date is most important when you are going to verify date in a web page because every web page has it's own format of date and you, as a tester, have to adopt to those variations of date formats.
 
 
 ## How the XPath is coded
