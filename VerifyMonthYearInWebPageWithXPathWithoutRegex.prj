@@ -6,6 +6,7 @@
    <UUID>d5154585-ed12-4dbf-9d95-788c5d273677</UUID>
    <migratedVersion>5.9.0</migratedVersion>
    <pageLoadTimeout>0</pageLoadTimeout>
+   <projectFileLocation>C:\Users\qcq0264\katalon-workspace\VerifyMonthYearInWebPageWithXPathWithoutRegex\VerifyMonthYearInWebPageWithXPathWithoutRegex.prj</projectFileLocation>
    <sourceContent>
       <sourceFolderList>
          <sourceFolderConfiguration>

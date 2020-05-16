@@ -21,6 +21,6 @@ println "patternFuture is ${patternFuture}"
 TestObject tObjFuture = findTestObject("span_datetime", ["ptn": patternFuture])
 WebUI.verifyElementNotPresent(tObjFuture, 5)
 
-WebUI.delay(3)
+WebUI.delay(5)
 WebUI.closeBrowser()
 
