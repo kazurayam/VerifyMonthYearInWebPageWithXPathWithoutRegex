@@ -1,7 +1,7 @@
-Verifying Today'S Date in Web page using XPath without Regex in Katalon Studio
+Verifying today's Year/Month/Day in a Web page using XPath in Katalon Studio
 ============
 
-This project is a small [Katalon Studio](https://www.katalon.com/katalon-studio/) project for demonstration purpose. You can download the zip from the [Releases] page, unzip it, and open it using your local Katalon Studio.
+This project is a small [Katalon Studio](https://www.katalon.com/katalon-studio/) project for demonstration purpose. You can download the zip from the [Releases](https://github.com/kazurayam/VerifyMonthYearInWebPageWithXPathWithoutRegex/releases) page, unzip it, and open it using your local Katalon Studio.
 
 This project was developed using Katalon Studio version 7.2.1.
 
@@ -10,15 +10,15 @@ This project was developed using Katalon Studio version 7.2.1.
 There is a web page http://demoaut-mimic.kazurayam.com/
 ![demoaut-mimic](./docs/images/demoaut-mimic.png)
 
-A datetime string `2020/5/16` is displayed in the page. I want to verify the dateime is TODAY. The datetime displayed yesterday was different from today. Tomorrow, it will be different. The datetime value moves.
+A date string `2020/5/16` is displayed in the page. I want to verify the date is TODAY. The value displayed yesterday was different from today. Tomorrow, it will be different from today. The date value displayed in the page moves.
  
-I do not want to edit my test script to cope with the moving datetime value, Written once, and the test should pass everyday.
+I do not want to edit my test script to cope with the moving date value displayed, Written once, the test should pass everyday.
 
 # Solution proposed
 
 1. The script needs the datetime value of TODAY. I will use [`java.time.LocalDate`](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html) class to get it.
 2. The `LocalDate` class provides `plusDays(int n)` and other convenient methods. We can calculate the date of Tomorrow (`today.plusDays(1)`) or Yesterday (`today.plusDays(-1)`) just easily.
-3. Datetime value displayed in a web page is formatted in various ways, often tailored according to Locale. I need to format the today's date to cope exactly with the format in the web page. I will use [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html) to format the instance of `java.time.LocalDate` into  a String.
+3. Datetime value displayed in a web page is formatted in various ways. Often date display is tailored according to Locale. E.g, in Japan, I may see 令和2年5月16日. I need to format the today's date to cope exactly with the format applied in the web page. I will use [`java.time.format.DateTimeFormatter`](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html) to format the instance of `java.time.LocalDate` into  a String.
 4. I will create a TestObject, which is a container of CSS/XPath selector to be passed to WebDriver, with parameter which will be interpolated with the today's date when the test script is executed.
 5. I will use a XPath with `contains()` function call. I do not need `match()` function here.
 
