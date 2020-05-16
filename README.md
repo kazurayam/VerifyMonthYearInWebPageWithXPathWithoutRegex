@@ -52,6 +52,30 @@ WebUI.verifyElementPresent(tObjToday, 5)
 2. The today's date is passed to `findTestObject(name, params)` method call. The TestObject obtained by this call will be aware of today' date.
 3. The `WebUI.verifyElementPresent()` keyword will do what it should do.
 
+## How to generate the pattern string of "Today's date"
+
+I wrote a custome keyword where a few lines of Groovy code generates a String of Today's date. 
+
+[Custom keyword](./Keywords/com/kazurayam/ksbackyard.DateTimePattern.groovy)
+```
+public static String today() {
+    // Todays date
+    LocalDate today = LocalDate.now()
+    // Todays Day as 2 gigits. e.g, "16"
+    String dayToday = today.format(DateTimeFormatter.ofPattern("dd", Locale.JAPAN))
+    // Todays Month as 1-2 digits. E.g, '5' as May
+    String monthToday = today.format(DateTimeFormatter.ofPattern("M", Locale.JAPAN))
+    // Todays Year as 4 digits. E.g, '2020'
+    String yearToday = today.format(DateTimeFormatter.ofPattern("yyyy", Locale.JAPAN))
+    // construct the pattern to check elements with
+    String patternToday = "${yearToday}/${monthToday}/${dayToday}"
+    return patternToday
+}
+```
+
+You might be surprised that the method is this lengthy and complex. In fact, this is the core part of this demo project. Generating an appropriate pattern string as Today's date is most important when you are going to verify date in a web page because every web page has it's own format of date and you, as a test, have to adopt to the variations of date formats.
+
+
 ## How the XPath is coded
 
 You can find the definition of the TestObject [span_datetime](Object Repository/span_datetime.rs) where a XPath is written like this:
