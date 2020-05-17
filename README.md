@@ -90,15 +90,71 @@ Please note that the XPath uses `contains()` function. I think that XPath `conta
 
 
 
+----
+
+# One more problem to solve: how to create a TestObject by script
+
+In the TC1, the following one line created a TestObject.
+
+```
+TestObject tObjToday = findTestObject("span_datetime", ["ptn": patternToday])
+```
+
+The source of the TestObject was named "span_datetime", was prepeared in the "Object Repsitory" with a template String
+```
+//span[contains(normalize-space(.),'${ptn}')]
+```
+
+The template was processed by `findTestObject()` method and the resulting TestObject has the xpath:
+```
+//span[contains(normalize-space(.),'2020/5/16')]
+```
+
+Please note that the placeholder `${ptn}` was interpolated to a string `2020/5/16`. This interpolation was done by `findTestObject()` method.
+
+However, sometimes we do not like to create entries in the "Object Repository". Escpecially when we need a lot of TestObjects --- creating them manually is cumbersome. We may prefer creating TestObjects by script --- single line per a TestObject.
+
+How can I create a TestObject by script while performing interpolation of placeholders in the template string with values wanted? I want to write a custom keyword that can do it.
+
+## Solution 
 
 
+I made one more demo testcase script [`Test Cases/TC2`](Scripts/TC2/Script1589668533420.groovy)
+
+```
+TestObject tObjToday = 
+	KazTestObjectFactory.createTestObject(
+		'tObj',
+		'//span[contains(normalize-space(.),\'${ptn}\')]',
+		["ptn": patternToday])
 
 
+```
+
+This one line creates an instance of TestObject dynamically.
+
+The 2nd argument is the string as template from which a XPath expression is derived. Please note that it contains a placeholder `${ptn}`.
+
+The 3rd argument is a Map object, which contains key=value pairs. The key `ptn` is associated with value of `2020/5/16` here.
+
+<blockquote>Be sure NOT to use double quotes "..." for the template string. You MUST use single quotes '...' as you want to pass the placeholder ${ptn} as is.</blockquote>
+		
 
 
+I made a custom keyword [`com.kazurayam.ksbackyard.KazTestObjecFactory`](./Keywords/com/kazurayam/ksbackyard/KazTestObjectFactory.groovy). Its `createTestObject` method does the magic.
 
+```
 
+public static TestObject createTestObject(String id, String template, Map params) {
+		...
+		// interpolate placeholders in the template with values supplied in the params
+		String expr = new GroovyShell(new Binding(params)).evaluate('\"' + template + '\"')
+		...
+		TestObject tObj = new TestObject(id)
+		tObj.addProperty("xpath", ConditionType.EQUALS, expr)
+		return tObj
 
+```
 
-
+Here I used `groovy.lang.GroovyShell` and `groovy.lang.Binding` classes. For more informatin of these classes, see [Integrating Groovy in a Java application](http://docs.groovy-lang.org/latest/html/documentation/guide-integrating.html)
 
